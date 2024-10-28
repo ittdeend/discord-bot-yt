@@ -143,11 +143,11 @@ async function script() {
         let idsToCheck = [...new Set([...inList, ...latestIds])];
         let v = await getVidsDetails(idsToCheck);
         let update = false;
-        console.log(v,1);
+
         if (Object.keys(v).length === 0) {
             return;
         }
-
+        //console.log(v);
         if (v.upcoming.length > 0) {
             inList = [...new Set([...inList, ...v.upcoming])];
             update = true;
