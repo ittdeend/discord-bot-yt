@@ -75,7 +75,7 @@ async function getVidsDetails(vIds) {
                     }
                 } else {
                     let publishedTime = new Date(video.snippet.publishedAt).getTime();
-                    if (Date.now() - publishedTime < 115000) {
+                    if (Date.now() - publishedTime < 55000) {
                         videos_data['none'][video.id] = {
                             channelId: video.snippet.channelId
                         };
