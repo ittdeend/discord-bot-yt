@@ -189,6 +189,7 @@ async function script() {
 
         if (update) {
             await fs.writeFile('data.json', JSON.stringify(inList), 'utf8');
+        	logMessage('Updated data.json');
         }
     } catch (error) {
         logMessage('Error in script: ' + error);
