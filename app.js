@@ -9,26 +9,39 @@ const discord_url = process.env.DISCORD_WEBHOOK;
 const roles = process.env.ROLES ? JSON.parse(process.env.ROLES) : [];
 const channel_ids = Object.keys(roles);
 
-function logMessage(message) {
-    const now = new Date();
-    const options = {
-        timeZone: 'Asia/Bangkok',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    };
-    const timeString = now.toLocaleString('en-US', options).replace(',', '');
-    const stack = new Error().stack.split("\n")[2].trim();
-    const functionName = stack.split(" ")[1];
-    const logEntry = `[${timeString}] (${functionName}) - ${message}\n`;
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-    fs.appendFile(logFilePath, logEntry).catch(err => {
-        console.error('Error writing to log file:', err);
-    });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function getLogFilePath(date) {
+	const options = { year: '2-digit', month: '2-digit', day: '2-digit', timeZone: 'Asia/Bangkok' };
+	const dateString = date.toLocaleDateString('en-US', options).replace(/\//g, '-');
+	return path.join(__dirname, 'log', 'system', `${dateString}.log`);
+}
+
+function logMessage(message) {
+	const now = new Date();
+	const options = {
+		timeZone: 'Asia/Bangkok',
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false
+	};
+	const timeString = now.toLocaleString('en-US', options).replace(',', '');
+	const stack = new Error().stack.split("\n")[2].trim();
+	const functionName = stack.split(" ")[1];
+	const logEntry = `[${timeString}] (${functionName}) - ${message}\n`;
+
+	const logFilePath = getLogFilePath(now);
+	fs.appendFile(logFilePath, logEntry).catch(err => {
+		console.error('Error writing to log file:', err);
+	});
 }
 
 async function getRSS(channel) {
