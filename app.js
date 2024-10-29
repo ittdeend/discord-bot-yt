@@ -160,7 +160,7 @@ async function script() {
         if (Object.keys(v).length === 0) {
             return;
         }
-        //console.log(v);
+        console.log(v);
         if (v.upcoming.length > 0) {
             inList = [...new Set([...inList, ...v.upcoming])];
             update = true;
