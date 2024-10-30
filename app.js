@@ -3,7 +3,6 @@ import axios from 'axios';
 import fs from 'fs/promises';
 
 dotenv.config();
-const logFilePath = 'system.log';
 const apiKey = process.env.API_KEY;
 const discord_url = process.env.DISCORD_WEBHOOK;
 const roles = process.env.ROLES ? JSON.parse(process.env.ROLES) : [];
